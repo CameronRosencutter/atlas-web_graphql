@@ -1,16 +1,32 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema'); // Import the schema
+const { GraphQLObjectType, GraphQLString, GraphQLSchema } = require('graphql');
 
-const app = express();
+// Define the TaskType
+const TaskType = new GraphQLObjectType({
+  name: 'Task',
+  fields: {
+    id: { type: GraphQLString },
+    title: { type: GraphQLString },
+    weight: { type: GraphQLString },
+    description: { type: GraphQLString }
+  }
+});
 
-// Define the route for GraphQL endpoint
-app.use('/graphql', graphqlHTTP({
-  schema: schema, // Pass the schema to the graphqlHTTP middleware
-  graphiql: true, // Enable GraphiQL for easy debugging
-}));
+// Define the RootQuery
+const RootQuery = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: {
+    task: {
+      type: TaskType,
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        // Resolve function implementation
+      }
+    }
+  }
+});
 
-// Start the server
-app.listen(4000, () => {
-  console.log('Server is now listening on port 4000');
+module.exports = new GraphQLSchema({
+  query: RootQuery
 });

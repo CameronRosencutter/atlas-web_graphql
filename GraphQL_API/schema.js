@@ -17,7 +17,17 @@ const TaskType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    // Define any queries here if needed
+    task: {
+      type: TaskType, // Assuming TaskType is defined elsewhere in your schema
+      args: {
+        id: { type: GraphQLString } // Define arguments for querying a task by ID
+      },
+      resolve(parent, args) {
+        // Implement the resolve function to fetch data from the database
+        // Here, you would typically fetch the task with the provided ID from the database
+        // and return it
+      }
+    }
   }
 });
 
