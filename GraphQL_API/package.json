@@ -13,8 +13,10 @@
   "author": "Cameron Rosencutter",
   "license": "ISC",
   "dependencies": {
+    "apollo-boost": "^0.4.9",
     "express": "^4.18.3",
     "express-graphql": "^0.12.0",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "react-apollo": "^3.1.5"
   }
 }
