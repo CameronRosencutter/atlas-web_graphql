@@ -1,6 +1,6 @@
 # atlas-web_graphql
 
-Resources
+Resourcesjl
 Read or watch:
 
 GraphQL
