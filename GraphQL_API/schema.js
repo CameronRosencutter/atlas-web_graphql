@@ -1,14 +1,12 @@
-// Import necessary modules from the graphql package
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLSchema } = require('graphql');
 
-// Define the TaskType GraphQLObjectType
+// Define the TaskType
 const TaskType = new GraphQLObjectType({
-  name: 'Task', // Name of the object type
+  name: 'Task',
   fields: {
-    // Define the fields of the TaskType
     id: { type: GraphQLString },
     title: { type: GraphQLString },
-    weight: { type: GraphQLInt },
+    weight: { type: GraphQLString },
     description: { type: GraphQLString }
   }
 });
@@ -18,20 +16,17 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     task: {
-      type: TaskType, // Assuming TaskType is defined elsewhere in your schema
+      type: TaskType,
       args: {
-        id: { type: GraphQLString } // Define arguments for querying a task by ID
+        id: { type: GraphQLString }
       },
       resolve(parent, args) {
-        // Implement the resolve function to fetch data from the database
-        // Here, you would typically fetch the task with the provided ID from the database
-        // and return it
+        // Resolve function implementation
       }
     }
   }
 });
 
-// Define the GraphQL schema with RootQuery
 module.exports = new GraphQLSchema({
   query: RootQuery
 });
