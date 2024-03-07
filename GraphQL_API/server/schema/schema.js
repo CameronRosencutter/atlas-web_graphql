@@ -1,6 +1,17 @@
 const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = require('graphql');
 
-// Define an array of tasks
+// Define the TaskType
+const TaskType = new GraphQLObjectType({
+  name: 'Task',
+  fields: {
+    id: { type: GraphQLString },
+    title: { type: GraphQLString },
+    weight: { type: GraphQLInt },
+    description: { type: GraphQLString }
+  }
+});
+
+// Define the tasks array
 const tasks = [
   {
     id: '1',
@@ -16,17 +27,6 @@ const tasks = [
   }
 ];
 
-// Define the TaskType
-const TaskType = new GraphQLObjectType({
-  name: 'Task',
-  fields: {
-    id: { type: GraphQLString },
-    title: { type: GraphQLString },
-    weight: { type: GraphQLString },
-    description: { type: GraphQLString }
-  }
-});
-
 // Define the RootQuery
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -37,12 +37,16 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLString }
       },
       resolve(parent, args) {
-        // Resolve function implementation
+        // Retrieve the id argument
+        const { id } = args;
+        // Find the task in the tasks array that matches the provided id
+        return tasks.find(task => task.id === id);
       }
     }
   }
 });
 
+// Export the GraphQLSchema with RootQuery
 module.exports = new GraphQLSchema({
   query: RootQuery
 });
