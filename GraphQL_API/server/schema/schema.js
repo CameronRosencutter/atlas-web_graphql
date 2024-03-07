@@ -24,6 +24,12 @@ const tasks = [
     title: 'Structure your webpage',
     weight: 1,
     description: 'Copy the content of 0-index.html into 1-index.html Create the head and body sections inside the html tag, create the head and body tags (empty) in this order'
+  },
+  {
+    id: '3',
+    title: 'Advanced HTML',
+    weight: 1,
+    description:  'Welcome to the Web Stack specialization. The 3 first projects will give you all basics of the Web development: HTML, CSS and Developer tools. In this project, you will learn how to use HTML tags to structure a web page. No CSS, no styling - don’t worry, the final page will be “ugly” it’s normal, it’s not the purpose of this project. Important note: details are important! lowercase vs uppercase / wrong letter… be careful!',
   }
 ];
 
