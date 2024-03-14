@@ -1,4 +1,5 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID, GraphQLList, GraphQLSchema } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLSchema} = require('graphql');
+
 
 
 
@@ -6,15 +7,20 @@ const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID, GraphQLList, Gr
 const projects = [
   {
     id: '1',
-    title: 'Project 1'
+    title: 'Project 1',
+    weight: '1',
+    description: 'Description 1',
+    tasks: 'Task 1',
   },
   {
     id: '2',
-    title: 'Project 2'
+    title: 'Project 2',
+    weight: '2',
   },
   {
     id: '3',
-    title: 'Project 3.5'
+    title: 'Project 3.5',
+    weight: '3.5',
   },
 ];
 
@@ -23,7 +29,7 @@ const tasks = [
   {
     id: '1',
     title: 'Create your first webpage',
-    weight: 1,
+    weight: '1 Pound',
     projectId: '1',
     description: 'Create your first HTML file 0-index.html with: -Add the doctype on the first line (without any comment) -After the doctype, open and close a html tag Open your file in your browser (the page should be blank)'
   },
@@ -53,12 +59,14 @@ const ProjectType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLString },
     title: { type: GraphQLString },
+    // Add other fields here
+    weight: { type: GraphQLInt },
+    description: { type: GraphQLString },
     // Add tasks field
     tasks: {
       type: new GraphQLList(TaskType),
       resolve(parent, args) {
-        // Filter tasks array to find tasks with projectId equal to id of the project
-        return tasks.filter(task => task.projectId === parent.id);
+        // Resolve tasks associated with the project
       }
     }
   })
@@ -88,32 +96,32 @@ const TaskType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+    // Add task field to retrieve a task by id
     task: {
       type: TaskType,
-      args: { id: { type: GraphQLID } },
+      args: {
+        id: { type: GraphQLString }
+      },
       resolve(parent, args) {
-        return Task.findById(args.id);
+        // Retrieve the id argument
+        const { id } = args;
+        // Find the task in the tasks array that matches the provided id
+        return tasks.find(task => task.id === id);
       }
     },
+    // Add project field to retrieve a project by id
     project: {
       type: ProjectType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return Project.findById(args.id);
+      args: {
+        id: { type: GraphQLString }
       },
-    },
-    tasks: {
-      type: new GraphQLList(TaskType),
       resolve(parent, args) {
-        return Task.find({});
-      },
-    },
-    projects: {
-      type: new GraphQLList(ProjectType),
-      resolve(parent, args) {
-        return Project.find({});
-      },
-    },
+        // Retrieve the id argument
+        const { id } = args;
+        // Find the project in the projects array that matches the provided id
+        return projects.find(project => project.id === id);
+      }
+    }
   }
 });
 
