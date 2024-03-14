@@ -1,6 +1,13 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('../server/schema/schema.js'); // Import the schema
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/Cluster0');
+
+mongoose.connection.once('open', () =>
+  console.log('connected to database')
+);
 
 const app = express();
 

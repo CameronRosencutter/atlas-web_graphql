@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLSchema} = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLSchema, mongoose } = require('graphql');
 
 
 
