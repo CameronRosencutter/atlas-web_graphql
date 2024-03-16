@@ -1,5 +1,14 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLSchema, mongoose } = require('graphql');
+const { GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLID,
+  GraphQLList,
+  GraphQLSchema,
+  GraphQLNonNull,
+} = require('graphql');
 
+const Project = require('../models/project');
+const Task = require('../models/task');
 
 
 
@@ -93,7 +102,7 @@ const TaskType = new GraphQLObjectType({
 });
 
 // Define the RootQuery
-const RootQuery = new GraphQLObjectType({
+const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     // Add task field to retrieve a task by id
@@ -125,7 +134,51 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
-// Export the GraphQLSchema with RootQuery
+// Define Mutation
+const MutationType = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addProject: {
+      type: ProjectType,
+      args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        weight: { type: new GraphQLNonNull(GraphQLInt) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        const project = new Project({
+          title: args.title,
+          weight: args.weight,
+          description: args.description,
+        });
+
+        return project.save();
+      }
+    },
+    addTask: {
+      type: TaskType,
+      args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        weight: { type: new GraphQLNonNull(GraphQLInt) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        projectId: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args){
+        const task = new Task({
+          title: args.title,
+          weight: args.weight,
+          description: args.description,
+          projectId: args.projectId,
+        });
+
+        return task.save();
+      }
+    }
+  }
+});
+
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQueryType,
+  mutation: MutationType,
 });
