@@ -21,3 +21,13 @@ app.use('/graphql', graphqlHTTP({
 app.listen(4000, () => {
   console.log('Server is now listening on port 4000');
 });
+
+{
+  "data": {
+    "addProject": {
+    "title": "Bootstrap",
+    "weight": "1",
+    "description": "Words will goe here"
+    }
+  }
+}
