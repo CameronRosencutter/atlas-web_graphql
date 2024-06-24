@@ -74,6 +74,20 @@ const RootQueryType = new GraphQLObjectType({
         // Use lodash to find project by id in the projects array
         return _.find(projects, { 'id': args.id });
       }
+    },
+    tasks: {
+      type: new GraphQLList(TaskType),
+      resolve(parent, args) {
+        // Return all tasks
+        return tasks;
+      }
+    },
+    projects: {
+      type: new GraphQLList(ProjectType),
+      resolve(parent, args) {
+        // Return all projects
+        return projects;
+      }
     }
   }
 });

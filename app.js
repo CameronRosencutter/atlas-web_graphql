@@ -1,16 +1,18 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema'); // Import the schema you created
+const schema = require('./schema');
 
 const app = express();
 
-// Set up the GraphQL endpoint with the schema and enable GraphiQL
+
+// Middleware for GraphQL
 app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  graphiql: true // Enable GraphiQL interface
+  schema,
+  graphiql: true,
 }));
 
 // Start the server
-app.listen(4000, () => {
-  console.log('Now listening for requests on port 4000');
+const PORT = 4000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
