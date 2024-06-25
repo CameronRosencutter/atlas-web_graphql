@@ -1,18 +1,24 @@
+// Initialize the server set on port 4000
+
 const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema/schema.js');
+const {graphqlHTTP} = require('express-graphql');
+const schema = require('./schema/schema');
+const { TaskType } = require('./schema/schema');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/Cluster0');
+
+mongoose.connection.once('open', () =>
+  console.log('connected to database')
+);
 
 const app = express();
 
-
-// Middleware for GraphQL
 app.use('/graphql', graphqlHTTP({
-  schema,
+  schema: schema,
   graphiql: true,
 }));
 
-// Start the server
-const PORT = 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(4000,()=>{
+  console.log('now listening for request on port 4000');
 });
