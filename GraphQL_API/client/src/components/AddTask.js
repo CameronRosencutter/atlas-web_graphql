@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+// client/src/components/AddTask.js
+
+import React from 'react';
 import { graphql } from 'react-apollo';
-import { flowRight as compose } from 'lodash';
-import { getProjectsQuery, addTaskMutation } from '../queries/queries';
+import { getProjectsQuery } from '../queries/queries';
 
 function AddTask(props) {
-  const [title, setTitle] = useState('');
-  const [projectId, setProjectId] = useState('');
+  function displayProjects() {
+    var data = props.data;
 
-  const displayProjects = () => {
-    const data = props.getProjectsQuery;
     if (data.loading) {
       return <option>Loading projects...</option>;
     } else {
@@ -18,29 +17,17 @@ function AddTask(props) {
         </option>
       ));
     }
-  };
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    props.addTaskMutation({
-      variables: {
-        title: title,
-        projectId: projectId
-      },
-      refetchQueries: [{ query: getProjectsQuery }]
-    });
-  };
+  }
 
   return (
-    <form id="add-task" onSubmit={submitForm}>
+    <form id="add-task">
       <div className="field">
-        <label>Task title:</label>
-        <input type="text" onChange={(e) => setTitle(e.target.value)} />
+        <label>Task:</label>
+        <input type="text" />
       </div>
       <div className="field">
         <label>Project:</label>
-        <select onChange={(e) => setProjectId(e.target.value)}>
-          <option>Select project</option>
+        <select>
           {displayProjects()}
         </select>
       </div>
@@ -49,7 +36,4 @@ function AddTask(props) {
   );
 }
 
-export default compose(
-  graphql(getProjectsQuery, { name: "getProjectsQuery" }),
-  graphql(addTaskMutation, { name: "addTaskMutation" })
-)(AddTask);
+export default graphql(getProjectsQuery)(AddTask);

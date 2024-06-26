@@ -1,7 +1,9 @@
+// client/src/queries/queries.js
+
 import { gql } from 'apollo-boost';
 
-// Query to get all tasks
-const getTasksQuery = gql`
+// Define your queries
+export const getTasksQuery = gql`
   {
     tasks {
       id
@@ -10,8 +12,7 @@ const getTasksQuery = gql`
   }
 `;
 
-// Query to get all projects
-const getProjectsQuery = gql`
+export const getProjectsQuery = gql`
   {
     projects {
       id
@@ -19,15 +20,3 @@ const getProjectsQuery = gql`
     }
   }
 `;
-
-// Mutation to add a new task
-const addTaskMutation = gql`
-  mutation($title: String!, $projectId: ID!) {
-    addTask(title: $title, projectId: $projectId) {
-      id
-      title
-    }
-  }
-`;
-
-export { getTasksQuery, getProjectsQuery, addTaskMutation };
