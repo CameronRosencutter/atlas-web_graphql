@@ -1,5 +1,3 @@
-// server/app.js
-
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
@@ -10,11 +8,14 @@ const app = express();
 // Allow cross-origin requests
 app.use(cors());
 
+// GraphQL endpoint setup
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true,
 }));
 
-app.listen(4000, () => {
-  console.log('Server running on port 4000');
+const PORT = process.env.PORT || 4000; // Use environment variable or port 4000
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
