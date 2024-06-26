@@ -1,67 +1,74 @@
-import { gql } from 'apollo-boost';
+import { gql } from "apollo-boost";
 
 const getTasksQuery = gql`
-  {
-    tasks {
-      id
-      title
+    {
+        tasks {
+        id
+        title
+        }
     }
-  }
 `;
 
 const getProjectsQuery = gql`
-  {
-    projects {
-      id
-      title
+    {
+        projects {
+        id
+        title
+        }
     }
-  }
 `;
 
 const addTaskMutation = gql`
-  mutation($title: String!, $description: String!, $projectId: ID!) {
-    addTask(title: $title, description: $description, projectId: $projectId) {
-      id
-      title
+    mutation (
+        $title: String!
+        $weight: Int!
+        $description: String!
+        $projectId: ID!
+    ) {
+        addTask(
+        title: $title
+        weight: $weight
+        description: $description
+        projectId: $projectId
+        ) {
+        title
+        id
+        }
     }
-  }
+`;
+
+const addProjectMutation = gql`
+    mutation ($title: String!, $weight: Int!, $description: String!) {
+        addProject(title: $title, weight: $weight, description: $description) {
+        title
+        id
+        }
+    }
 `;
 
 const getTaskDetailQuery = gql`
-  query($id: ID!) {
-    task(id: $id) {
-      id
-      title
-      weight
-      description
-      project {
+    query($id: ID) {
+        task(id: $id) {
         id
         title
         weight
         description
-        tasks {
-          id
-          title
-          weight
+        project {
+            title
+            description
+            tasks {
+            title
+            id
+            }
         }
-      }
+        }
     }
-  }
-`;
-
-const addProjectMutation = gql`
-  mutation($title: String!, $description: String!) {
-    addProject(title: $title, description: $description) {
-      id
-      title
-    }
-  }
 `;
 
 export {
-  getTasksQuery,
-  getProjectsQuery,
-  addTaskMutation,
-  getTaskDetailQuery,
-  addProjectMutation,
+    getTasksQuery,
+    getProjectsQuery,
+    addTaskMutation,
+    addProjectMutation,
+    getTaskDetailQuery,
 };
